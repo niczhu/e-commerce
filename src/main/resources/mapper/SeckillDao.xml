@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.seckill.dao.SeckillDao">
+    <!--开启mybatis的缓存策略的第二步-->
+<!--<cache readOnly="true" size="500" flushInterval="120000" eviction="LRU"/>-->
+
+    <update id="reduceNumber" >
+        update
+        seckill
+        set
+        number = number-1
+        where seckill_id = #{seckillId}
+        and start_time <![CDATA[ <= ]]> #{killTime}
+        and end_time >=  #{killTime}
+        and number > 0;
+    </update>
+    <!--使用mybatis缓存的第三步，usecache=true 默认为true-->
+    <select id="queryById" resultType="Seckill" parameterType="long" useCache="true">
+        select seckill_id,
+        name,
+        start_time,
+        end_time,
+        create_time
+        FROM seckill
+        where seckill_id = #{seckillId}
+    </select>
+
+    <select id="queryAll" resultType="Seckill">
+        select seckill_id,
+        name,
+        number,
+        start_time,
+        end_time,
+        create_time
+        FROM seckill
+        order by create_time desc
+        limit #{offset},#{limit}
+    </select>
+
+
+
+</mapper>

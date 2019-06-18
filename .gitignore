@@ -1,8 +1,19 @@
 # Compiled class file
 *.class
+*.iml
 
 # Log file
 *.log
+package-lock.json
+
+.idea/**
+*.iws
+*.ipr
+**/target/**
+**/.settings/**
+**/.project
+**/.classpath
+**/dist/**
 
 # BlueJ files
 *.ctxt

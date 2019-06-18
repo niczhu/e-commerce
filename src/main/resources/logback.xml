@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="true">
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- encoders are by default assigned the type ch.qos.logback.classic.encoder.PatternLayoutEncoder -->
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <!--控制台不能输出sql时，如下可以解决-->
+    <logger name="org.seckill.dao" leval="DEBUG"/>
+    <!--指定项目可输出的最低级别的日志-->
+    <root level="INFO">
+        <appender-ref ref="console"/>
+        <appender-ref ref="file-debug"/>
+        <appender-ref ref="file-info"/>
+        <appender-ref ref="file-error"/>
+        <!--<appender-ref ref="STDOUT" />-->
+    </root>
+</configuration>
