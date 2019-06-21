@@ -5,8 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.nic</groupId>
     <artifactId>nic</artifactId>
-    <packaging>war</packaging>
+    <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>ecommerce</module>
+    </modules>
     <name>nic Maven Webapp</name>
     <url>http://maven.apache.org</url>
 
@@ -24,6 +27,7 @@
             <artifactId>mysql-connector-java</artifactId>
             <version>5.1.34</version>
         </dependency>
+
         <!--数据库连接池-->
 
         <!-- druid -->
