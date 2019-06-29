@@ -6,6 +6,7 @@
 <mapper namespace="org.seckill.dao.SeckillDao">
     <!--开启mybatis的缓存策略的第二步-->
 <!--<cache readOnly="true" size="500" flushInterval="120000" eviction="LRU"/>-->
+    <cache type="org.seckill.cache.RedisCache"/>
 
     <update id="reduceNumber" >
         update

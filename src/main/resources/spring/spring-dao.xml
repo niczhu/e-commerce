@@ -10,40 +10,41 @@
     <!--配置整合mybatis-->
     <!--1 配置数据库相关参数,-->
     <context:property-placeholder location="classpath:jdbc.properties"/>
+    <context:property-placeholder location="classpath:redis.properties"/>
 
     <!-- TODO: 使用druid-->
 
     <!-- alibaba 数据库连接池 -->
-<!--    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"-->
-<!--          destroy-method="close" init-method="init">-->
-<!--        <property name="url" value="${db.url}" />-->
-<!--        <property name="username" value="${db.username}" />-->
-<!--        <property name="password" value="${db.password}" />-->
-<!--        <property name="driverClassName" value="${db.driverClass}" />-->
-<!--        <property name="initialSize" value="3" />-->
-<!--        <property name="maxActive" value="20" />-->
-<!--        <property name="maxWait" value="60000" />-->
-<!--        <property name="timeBetweenEvictionRunsMillis" value="60000" />-->
-<!--        <property name="minEvictableIdleTimeMillis" value="300000" />-->
-<!--        <property name="removeAbandoned" value="true" />-->
-<!--        <property name="removeAbandonedTimeout" value="1800" />-->
-<!--        <property name="validationQuery" value="SELECT 1" />-->
-<!--        <property name="testWhileIdle" value="true" />-->
-<!--        <property name="testOnBorrow" value="false" />-->
-<!--        <property name="testOnReturn" value="false" />-->
-<!--        <property name="poolPreparedStatements" value="true" />-->
-<!--        <property name="maxPoolPreparedStatementPerConnectionSize"-->
-<!--                  value="20" />-->
-<!--        &lt;!&ndash; stat &ndash;&gt;-->
-<!--        <property name="filters" value="wall,stat,log4j" />-->
-<!--        <property name="connectionProperties"-->
-<!--                  value="druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000" />-->
-<!--    </bean>-->
+    <!--    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"-->
+    <!--          destroy-method="close" init-method="init">-->
+    <!--        <property name="url" value="${db.url}" />-->
+    <!--        <property name="username" value="${db.username}" />-->
+    <!--        <property name="password" value="${db.password}" />-->
+    <!--        <property name="driverClassName" value="${db.driverClass}" />-->
+    <!--        <property name="initialSize" value="3" />-->
+    <!--        <property name="maxActive" value="20" />-->
+    <!--        <property name="maxWait" value="60000" />-->
+    <!--        <property name="timeBetweenEvictionRunsMillis" value="60000" />-->
+    <!--        <property name="minEvictableIdleTimeMillis" value="300000" />-->
+    <!--        <property name="removeAbandoned" value="true" />-->
+    <!--        <property name="removeAbandonedTimeout" value="1800" />-->
+    <!--        <property name="validationQuery" value="SELECT 1" />-->
+    <!--        <property name="testWhileIdle" value="true" />-->
+    <!--        <property name="testOnBorrow" value="false" />-->
+    <!--        <property name="testOnReturn" value="false" />-->
+    <!--        <property name="poolPreparedStatements" value="true" />-->
+    <!--        <property name="maxPoolPreparedStatementPerConnectionSize"-->
+    <!--                  value="20" />-->
+    <!--        &lt;!&ndash; stat &ndash;&gt;-->
+    <!--        <property name="filters" value="wall,stat,log4j" />-->
+    <!--        <property name="connectionProperties"-->
+    <!--                  value="druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000" />-->
+    <!--    </bean>-->
 
     <!-- druid监控 -->
-<!--    <bean id="druid-stat-interceptor"-->
-<!--          class="com.alibaba.druid.support.spring.stat.DruidStatInterceptor">-->
-<!--    </bean>-->
+    <!--    <bean id="druid-stat-interceptor"-->
+    <!--          class="com.alibaba.druid.support.spring.stat.DruidStatInterceptor">-->
+    <!--    </bean>-->
 
     <!--2 数据库的连接池-->
     <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
@@ -81,9 +82,35 @@
         <!--给出需要的扫描的dao接口包 -->
         <property name="basePackage" value="org.seckill.dao"/>
     </bean>
+
     <!--redisDao 正式的环境要放在配置文件中，不能放在这里-->
     <bean id="redisDao" class="org.seckill.cache.RedisDao">
         <constructor-arg index="0" value="localhost"/>
         <constructor-arg index="1" value="6379"/>
     </bean>
+
+    <!--  redis  cache begin -->
+
+    <!-- redis数据源 -->
+    <bean id="redisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+<!--        <property name="maxIdle" value="${redis.maxIdle}" />-->
+<!--        <property name="maxTotal" value="${redis.maxActive}" />-->
+<!--        <property name="maxWaitMillis" value="${redis.maxWait}" />-->
+<!--        <property name="testOnBorrow" value="${redis.testOnBorrow}" />-->
+    </bean>
+    <!-- Spring-redis连接池管理工厂 -->
+    <bean id="jedisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+<!--        p:host-name="${redis.host}" p:port="${redis.port}" p:password="${redis.pass}"  p:pool-config-ref="poolConfig"-->
+        <property name="hostName" value="127.0.0.1"/>
+        <property name="port"   value="6379"/>
+        <property name="password" value=""/>
+        <property name="poolConfig" ref="redisPoolConfig"/>
+
+    </bean>
+
+    <!-- 使用中间类解决RedisCache.jedisConnectionFactory的静态注入，从而使MyBatis实现第三方缓存 -->
+    <bean id="redisCacheTransfer" class="org.seckill.cache.RedisCacheTransfer">
+        <property name="jedisConnectionFactory" ref="jedisConnectionFactory"/>
+    </bean>
+
 </beans>

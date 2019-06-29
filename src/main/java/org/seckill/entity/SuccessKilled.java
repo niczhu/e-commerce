@@ -1,11 +1,14 @@
 package org.seckill.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by zhuhp on 2016/12/24.
  */
-public class SuccessKilled {
+public class SuccessKilled implements Serializable {
+
+    private static final long serialVersionUID = -1L;
 
     private long seckillId;
 

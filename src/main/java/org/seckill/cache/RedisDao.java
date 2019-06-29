@@ -15,6 +15,7 @@ import redis.clients.jedis.JedisPool;
  * Created by zhuhp on 2016/12/27.
  */
 public class RedisDao {
+    
     private Logger logger =  LoggerFactory.getLogger(this.getClass());
 
     private final JedisPool jedisPool;

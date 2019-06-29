@@ -37,8 +37,9 @@
     <!--这里千万不要再配置mappers，否则会冲突。因为在spring-dao中已经-->
     <!--<property name="mapperLocations" value="classpath:mapper/*.xml"/>-->
 
-    <!--<mappers>-->
-        <!--<mapper resource="classpath:mapper/SeckillDao.xml"/>-->
-    <!--</mappers>-->
+<!--    <mappers>-->
+<!--        <mapper resource="classpath:mapper/SeckillDao.xml"/>-->
+<!--    </mappers>-->
+
 
 </configuration>

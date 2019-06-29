@@ -36,8 +36,8 @@ public class SeckillServiceImpl implements SeckillService {
     @Autowired
     private SuccessKillDao successKillDao;
 
-    @Autowired
-    private RedisDao redisDao;
+//    @Autowired
+//    private RedisDao redisDao;
     //盐值
     private final String salt = "fdkr48375030fidasfsi!@$#@$^&FADFVfsjafwqiSTR^";
 
@@ -70,24 +70,25 @@ public class SeckillServiceImpl implements SeckillService {
 
         //TODO: 判断redis 是否开启 jedis.ping
 //        System.out.println("jedis status: " + new Jedis().ping());
-        String s = new Jedis().ping();
-        if ("".equals(s) || !"PONG".equals(s)) {
-            logger.error("redis 未启动");
-            return null;
-        }
+//        String s = new Jedis().ping();
+//        if ("".equals(s) || !"PONG".equals(s)) {
+//            logger.error("redis 未启动");
+//            return null;
+//        }
 
-        Seckill seckill = redisDao.getSeckill(seckillId);
+        Seckill seckill = seckillDao.queryById(seckillId);
+//        Seckill seckill = redisDao.getSeckill(seckillId);
 
-        if (seckill == null) {
-            // access db
-            seckill = seckillDao.queryById(seckillId);
-            if (seckill == null) {
-                return new Exposer(false, seckillId);
-            } else {
-                // redis中添加有效访问时间
-                redisDao.putSeckill(seckill);
-            }
-        }
+//        if (seckill == null) {
+//            // access db
+//            seckill = seckillDao.queryById(seckillId);
+//            if (seckill == null) {
+//                return new Exposer(false, seckillId);
+//            } else {
+//                // redis中添加有效访问时间
+//                redisDao.putSeckill(seckill);
+//            }
+//        }
 
         if (seckill == null) {
             return new Exposer(false, seckillId);
