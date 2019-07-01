@@ -36,8 +36,7 @@ public class RedisCache implements Cache {
 
         this.id = id;
 
-        logger.debug("Mybatis-Redis-Cache:id=" + id);
-        System.out.println("Mybatis-Redis-Cache:id=" + id);
+        System.out.println("Mybatis-Redis-Cache:id=");
     }
 
 
@@ -55,8 +54,7 @@ public class RedisCache implements Cache {
      */
     @Override
     public void putObject(Object key, Object value) {
-        System.out.println("===redis put object k="+key);
-        logger.info("===redis put object k="+key);
+        logger.info("===redis put object k=");
         JedisConnection connection = null;
 
         try
@@ -84,8 +82,7 @@ public class RedisCache implements Cache {
      */
     @Override
     public Object getObject(Object key) {
-        System.out.println("==从redis中get key="+key);
-        logger.info("===从redis中get key="+key);
+        logger.info("===从redis中get key=");
 
 
         Object result = null;

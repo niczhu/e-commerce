@@ -19,8 +19,10 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.DigestUtils;
+import org.springframework.util.StopWatch;
 import redis.clients.jedis.Jedis;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -43,11 +45,20 @@ public class SeckillServiceImpl implements SeckillService {
 
     @Override
     public List<Seckill> getSeckillList() {
+        StopWatch stopWatch = new StopWatch();
+        stopWatch.start(this.getClass().getName());
+
         try {
-            return seckillDao.queryAll(0, 4);
+
+            List<Seckill> list = seckillDao.queryAll(0, 4);
+            stopWatch.stop();
+            System.out.println(stopWatch.prettyPrint());
+
+            return list;
         } catch (DataAccessException e) {
             logger.error(e.getMessage());
         }
+
         return Collections.emptyList();
 
     }
