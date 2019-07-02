@@ -45,4 +45,6 @@ public interface SeckillService {
      */
     SeckillExecution executeSeckill(long seckillId, long userPhone, String md5)
             throws SeckillCloseException,SeckillException,RepeatKillException;
+
+    String test(String s);
 }

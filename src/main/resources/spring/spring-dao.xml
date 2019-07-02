@@ -10,7 +10,6 @@
     <!--配置整合mybatis-->
     <!--1 配置数据库相关参数,-->
     <context:property-placeholder location="classpath:jdbc.properties" ignore-unresolvable="true"/>
-    <context:property-placeholder location="classpath:redis.properties" ignore-unresolvable="true"/>
 
     <!-- TODO: 使用druid-->
 
@@ -83,32 +82,6 @@
         <property name="basePackage" value="org.seckill.dao"/>
     </bean>
 
-    <!--redisDao 正式的环境要放在配置文件中，不能放在这里-->
-    <bean id="redisDao" class="org.seckill.cache.RedisDao">
-        <constructor-arg index="0" value="localhost"/>
-        <constructor-arg index="1" value="6379"/>
-    </bean>
 
-    <!--  redis  cache begin -->
-
-    <!-- redis数据源 -->
-    <bean id="redisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
-        <property name="maxIdle" value="${redis.maxIdle}" />
-        <property name="maxTotal" value="${redis.maxActive}" />
-        <property name="maxWaitMillis" value="${redis.maxWait}" />
-        <property name="testOnBorrow" value="${redis.testOnBorrow}" />
-    </bean>
-    <!-- Spring-redis连接池管理工厂 -->
-    <bean id="jedisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
-        <property name="hostName" value="${redis.host}"/>
-        <property name="port"   value="${redis.port}"/>
-        <property name="password" value="${redis.passWord}"/>
-        <property name="poolConfig" ref="redisPoolConfig"/>
-    </bean>
-
-    <!-- 使用中间类解决RedisCache.jedisConnectionFactory的静态注入，从而使MyBatis实现第三方缓存 -->
-    <bean id="redisCacheTransfer" class="org.seckill.cache.RedisCacheTransfer">
-        <property name="jedisConnectionFactory" ref="jedisConnectionFactory"/>
-    </bean>
 
 </beans>

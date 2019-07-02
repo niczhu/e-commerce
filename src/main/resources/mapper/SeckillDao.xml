@@ -5,8 +5,6 @@
 
 <mapper namespace="org.seckill.dao.SeckillDao">
     <!--开启mybatis的缓存策略的第二步-->
-<!--<cache readOnly="true" size="500" flushInterval="120000" eviction="LRU"/>-->
-    <cache type="org.seckill.cache.RedisCache"/>
 
     <update id="reduceNumber" >
         update
@@ -19,7 +17,7 @@
         and number > 0;
     </update>
     <!--使用mybatis缓存的第三步，usecache=true 默认为true-->
-    <select id="queryById" resultType="Seckill" parameterType="long" useCache="true">
+    <select id="queryById" resultType="Seckill" parameterType="long" >
         select seckill_id,
         name,
         start_time,

@@ -15,6 +15,7 @@ import org.seckill.service.SeckillService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,14 +46,9 @@ public class SeckillServiceImpl implements SeckillService {
 
     @Override
     public List<Seckill> getSeckillList() {
-        StopWatch stopWatch = new StopWatch();
-        stopWatch.start(this.getClass().getName());
 
         try {
-
             List<Seckill> list = seckillDao.queryAll(0, 4);
-            stopWatch.stop();
-            System.out.println(stopWatch.prettyPrint());
 
             return list;
         } catch (DataAccessException e) {
@@ -63,9 +59,16 @@ public class SeckillServiceImpl implements SeckillService {
 
     }
 
+
     @Override
     public Seckill getById(long seckillId) {
-        return seckillDao.queryById(seckillId);
+
+
+        Seckill seckill = seckillDao.queryById(seckillId);
+
+
+
+        return seckill;
     }
 
     /**
@@ -75,31 +78,17 @@ public class SeckillServiceImpl implements SeckillService {
      * @return
      */
     @Override
+    @Cacheable(value = {"redis"})
     public Exposer exportSeckillUrl(long seckillId) {
         // 优化点：超时基础上维护一致性
-        // redis 缓存
 
-        //TODO: 判断redis 是否开启 jedis.ping
-//        System.out.println("jedis status: " + new Jedis().ping());
-//        String s = new Jedis().ping();
-//        if ("".equals(s) || !"PONG".equals(s)) {
-//            logger.error("redis 未启动");
-//            return null;
-//        }
+        StopWatch stopWatch = new StopWatch();
+        stopWatch.start(this.getClass().getName());
 
         Seckill seckill = seckillDao.queryById(seckillId);
-//        Seckill seckill = redisDao.getSeckill(seckillId);
 
-//        if (seckill == null) {
-//            // access db
-//            seckill = seckillDao.queryById(seckillId);
-//            if (seckill == null) {
-//                return new Exposer(false, seckillId);
-//            } else {
-//                // redis中添加有效访问时间
-//                redisDao.putSeckill(seckill);
-//            }
-//        }
+        stopWatch.stop();
+        System.out.println(stopWatch.prettyPrint());
 
         if (seckill == null) {
             return new Exposer(false, seckillId);
@@ -126,7 +115,6 @@ public class SeckillServiceImpl implements SeckillService {
         //执行秒杀逻辑：减库存 ，记录购买行为
         Date nowTime = new Date();
 
-        // TODO: 使用消息队列 + 事务处理
         try {
             // 减库存操作
             int updateCount = seckillDao.reduceNumber(seckillId, nowTime);
@@ -159,6 +147,7 @@ public class SeckillServiceImpl implements SeckillService {
 
     }
 
+
     /**
      * 加盐操作
      *
@@ -169,5 +158,14 @@ public class SeckillServiceImpl implements SeckillService {
         String base = seckillId + "/" + salt;
         String md5 = DigestUtils.md5DigestAsHex(base.getBytes());
         return md5;
+    }
+
+
+    @Override
+    @Cacheable(value = {"redis"},key="#s")
+    public String test(String s) {
+        Seckill seckill = seckillDao.queryById(1000);
+        System.out.println("====" + seckill.getSeckillId() + seckill.getName());
+        return "test + s="+seckill.getName();
     }
 }

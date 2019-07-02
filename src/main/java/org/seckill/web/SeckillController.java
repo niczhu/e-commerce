@@ -11,6 +11,7 @@ import org.seckill.service.SeckillService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StopWatch;
@@ -84,17 +85,9 @@ public class SeckillController {
         SeckillResult<Exposer> result;
         try {
 
-            logger.info("==========秒杀接口暴露==========");
-
-            StopWatch  stopWatch = new StopWatch();
-            stopWatch.start("执行秒杀接口exposer");
-
             Exposer exposer = seckillService.exportSeckillUrl(seckillId);
-
-            stopWatch.stop();
-            logger.info(stopWatch.prettyPrint());
-
             result = new SeckillResult<Exposer>(true, exposer);
+
         } catch (Exception e) {
             logger.info(e.getMessage(), e);
             result = new SeckillResult<Exposer>(false, e.getMessage());
@@ -161,11 +154,10 @@ public class SeckillController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "start",method = RequestMethod.GET,produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "test",method = RequestMethod.GET,produces = {"application/json;charset=UTF-8"})
     public Object statSeckill(){
         //开始活动
-
-        return null;
+        return seckillService.test("hello");
     }
 
 }
