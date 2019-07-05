@@ -44,10 +44,18 @@
     </bean>
 
     <!-- 配置RedisCacheManager -->
-<!--    <bean id="redisCacheManager" class="org.springframework.data.redis.cache.RedisCacheManager">-->
-<!--        <constructor-arg name="redisOperations" ref="redisTemplate"/>-->
-<!--            <property name="defaultExpiration" value="300000"/>-->
-<!--    </bean>-->
+    <bean id="redisCacheManager" class="org.springframework.data.redis.cache.RedisCacheManager">
+        <constructor-arg name="redisOperations" ref="redisTemplate"/>
+            <property name="defaultExpiration" value="300000"/>
+    </bean>
+
+    <bean id="cacheManager" class="org.springframework.cache.support.CompositeCacheManager">
+        <property name="cacheManagers">
+            <list>
+                <ref bean="redisCacheManager" />
+            </list>
+        </property>
+    </bean>
 
 
 </beans>

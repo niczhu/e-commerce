@@ -38,6 +38,8 @@
     </bean>
 
     <bean id="redisCacheManager" class="org.springframework.data.redis.cache.RedisCacheManager">
+        <property name="transactionAware" value="true"/>
+
     </bean>
 
 </beans>
