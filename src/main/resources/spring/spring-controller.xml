@@ -18,6 +18,7 @@
 
     <!--或者-->
     <!--<mvc:resources location="/" mapping="//"/>-->
+<!--    <context:property-placeholder location="classpath:app.properties"/>-->
 
     <!--配置velocity引擎-->
     <!-- velocity -->
@@ -59,8 +60,8 @@
     <!--添加拦截器-->
     <mvc:interceptors>
         <mvc:interceptor>
-            <mvc:mapping path="/seckill/**"/>
-            <bean class="org.seckill.interceptor.TestInterceptor"></bean>
+            <mvc:mapping path="/**"/>
+            <bean class="org.seckill.interceptor.CatInterceptor"></bean>
         </mvc:interceptor>
     </mvc:interceptors>
 

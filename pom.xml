@@ -137,6 +137,24 @@
             <version>1.6.2.RELEASE</version>
         </dependency>
 
+        <!--cat-->
+        <dependency>
+            <groupId>com.dianping.cat</groupId>
+            <artifactId>cat-core</artifactId>
+            <version>3.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.dianping.cat</groupId>
+            <artifactId>cat-client</artifactId>
+            <version>3.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.dianping.cat</groupId>
+            <artifactId>cat-consumer</artifactId>
+            <version>3.0.0</version>
+        </dependency>
+
+
 
         <!-- Ehcache实现,用于参考 -->
 <!--        <dependency>-->

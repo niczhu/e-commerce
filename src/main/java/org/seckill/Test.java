@@ -1,13 +1,20 @@
 package org.seckill;
 
+import com.alibaba.druid.sql.dialect.mysql.ast.statement.MySqlCommitStatement;
+import org.springframework.transaction.annotation.Transactional;
+
 import javax.tools.JavaCompiler;
 import javax.tools.JavaFileObject;
 import javax.tools.StandardJavaFileManager;
 import javax.tools.ToolProvider;
+import java.beans.Transient;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.ObjectOutputStream;
 import java.lang.reflect.Constructor;
+import java.nio.channels.ServerSocketChannel;
+import java.sql.Connection;
 
 public class Test {
 
@@ -28,6 +35,8 @@ public class Test {
 //        ClassLoader
 //        Launcher
 
+//    ServerSocketChannel
+//    ObjectOutputStream
     public static void main(String[] args) throws Exception {
         System.out.println("hello world");
 
@@ -36,9 +45,14 @@ public class Test {
         Constructor<Main> c  = Main.class.getConstructor();
         System.out.println(c.newInstance().getClass());
 
-        loadClassTest();
+        Main main1 = new Main();
 
-        readClassFile("Main");
+//        loadClassTest();
+
+//        readClassFile("Main");
+
+
+
 
     }
 
