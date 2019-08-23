@@ -1,13 +1,19 @@
 package org.seckill;
 
 import com.alibaba.druid.sql.dialect.mysql.ast.statement.MySqlCommitStatement;
+import org.apache.catalina.connector.Connector;
+import org.apache.catalina.startup.Tomcat;
+import org.apache.coyote.AbstractProtocol;
+import org.apache.ibatis.session.RowBounds;
+import org.apache.tomcat.util.net.Acceptor;
+import org.apache.tomcat.util.net.NioEndpoint;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.servlet.DispatcherServlet;
 
 import javax.tools.JavaCompiler;
 import javax.tools.JavaFileObject;
 import javax.tools.StandardJavaFileManager;
 import javax.tools.ToolProvider;
-import java.beans.Transient;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -15,6 +21,7 @@ import java.io.ObjectOutputStream;
 import java.lang.reflect.Constructor;
 import java.nio.channels.ServerSocketChannel;
 import java.sql.Connection;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class Test {
 
@@ -41,7 +48,7 @@ public class Test {
         System.out.println("hello world");
 
         Main main = (Main) Class.forName("org.seckill.Main").newInstance();
-        System.out.println(main.getClass());
+
         Constructor<Main> c  = Main.class.getConstructor();
         System.out.println(c.newInstance().getClass());
 
@@ -50,9 +57,16 @@ public class Test {
 //        loadClassTest();
 
 //        readClassFile("Main");
+        Tomcat tomcat = new Tomcat();
 
+        Connector connector = new Connector("HTTP/1.1");
+        connector.setPort(9090);
 
+        tomcat.setConnector(connector);
 
+        tomcat.start();
+
+        tomcat.getServer().await();
 
     }
 
