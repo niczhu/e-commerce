@@ -1,13 +1,16 @@
 package org.seckill;
 
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+
 public class Main {
 
     private String name;
 
     public static void main(String[] args) {
         System.out.println("hello world!!");
-
     }
+
 
     public String getName(){
         return this.name;

@@ -79,13 +79,13 @@ public class SeckillController {
      */
     @ResponseBody
     @RequestMapping(value = "/{seckillId}/exposer", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
-    public SeckillResult<Exposer> exposer(@PathVariable Long seckillId) {
+    public SeckillResult<Exposer> exposer(@PathVariable String seckillId) {
         logger.info("访问 /"+seckillId+"/exposer ");
 
         SeckillResult<Exposer> result;
         try {
 
-            Exposer exposer = seckillService.exportSeckillUrl(seckillId);
+            Exposer exposer = seckillService.exportSeckillUrl(Long.valueOf(seckillId));
             result = new SeckillResult<Exposer>(true, exposer);
 
         } catch (Exception e) {

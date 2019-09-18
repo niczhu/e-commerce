@@ -58,11 +58,11 @@
     <context:component-scan base-package="org.seckill.web"/>
 
     <!--添加拦截器-->
-    <mvc:interceptors>
-        <mvc:interceptor>
-            <mvc:mapping path="/**"/>
-            <bean class="org.seckill.interceptor.CatInterceptor"></bean>
-        </mvc:interceptor>
-    </mvc:interceptors>
+<!--    <mvc:interceptors>-->
+<!--        <mvc:interceptor>-->
+<!--            <mvc:mapping path="/**"/>-->
+<!--            <bean class="org.seckill.interceptor.CatInterceptor"></bean>-->
+<!--        </mvc:interceptor>-->
+<!--    </mvc:interceptors>-->
 
 </beans>

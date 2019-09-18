@@ -81,6 +81,8 @@
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactoryBean"/>
         <!--给出需要的扫描的dao接口包 -->
         <property name="basePackage" value="org.seckill.dao"/>
+<!--        注解分配数据源-->
+<!--        <property name="annotationClass" value="org.utils.MyBatis1"/>-->
     </bean>
 
 
